@@ -1,5 +1,6 @@
 from django.urls import path
-from website.views import IndexTemplateView, ClienteListView, ClienteDetailView, ClienteUpdateView, ClienteCreateView, ClienteDeleteView
+from website.views import IndexTemplateView, ClienteListView, ClienteDetailView, ClienteUpdateView, ClienteCreateView, \
+    ClienteDeleteView
 
 
 app_name = 'website'
@@ -15,7 +16,7 @@ urlpatterns = [
          name='clientes'
          ),
 
-    path('cliente/<pk>/',
+    path('cliente/<int:pk>/',
          ClienteDetailView.as_view(),
          name='detalhes'
          ),
@@ -30,7 +31,7 @@ urlpatterns = [
          name='salvar'
          ),
 
-    path('cliente/excliur/<pk>',
+    path('cliente/excluir/<pk>',
          ClienteDeleteView.as_view(),
          name='excluir'
          )
