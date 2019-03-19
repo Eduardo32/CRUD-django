@@ -1,0 +1,107 @@
+<!-- Template Detalhes.html -->
+{% extends 'website/_layouts/base.html' %}
+
+{% block title%}Meus Cliente | Dados do Cliente{% endblock %}
+
+{% block navbar %}
+<nav class="navbar sticky-top navbar-expand-md navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'website:clientes' %}">Meus Clientes</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'website:clientes' %}">Lista de Clientes <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'website:salvar' %}">Cadastro Novo</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav float-md-right">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Perfil
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Editar</a>
+            <a class="dropdown-item" href="#">Sair</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+</nav>
+{% endblock %}
+
+{% block conteudo %}
+<div class="container">
+  <div class="row justify-content-center">
+        <div class="col">
+          <div class="card mt-3">
+            <div class="card-header">
+              Dados Pessoais
+            </div>
+            <div class="card-body">
+              <p>Nome: {{ Cliente.nome }}</p>
+              <p>Sobrenome: {{ Cliente.sobrenome }}</p>
+            </div>
+          </div>
+          <div class="card mt-3">
+            <div class="card-header">
+              Dados Endereço
+            </div>
+            <div class="card-body">
+              <p>Endereço: Passagem Euquido Sales, 18</p>
+              <p>Bairro: Bengui</p>
+              <p>Cidade: Belém</p>
+              <p>Estado: PA</p>
+              <p>CEP: 66630-295</p>
+            </div>
+          </div>
+          <div class="card mt-3">
+            <div class="card-header">
+              Contato
+            </div>
+            <div class="card-body">
+              <p>Telefone:
+                {% if Cliente.telefone != null %}
+                  {{ Cliente.telefone }}
+                {% endif %}
+              </p>
+              <p>Email: {{ Cliente.email }}</p>
+            </div>
+          </div>
+          <div class="text-right mt-3 mb-3">
+            <a class="btn btn-outline-primary" href="{% url 'website:editar' Cliente.id %}" role="button">Editar</a>
+            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">
+              Excluir
+            </button>
+          </div>
+
+        </div>
+      </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Atenção</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Você tem certeza que quer excluir o cliente {{ Cliente.nome}} {{ Cliente.sobrenome }}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+        <form method="POST" action="{% url 'website:excluir' Cliente.id %}">
+          {% csrf_token %}
+        <!-- td><a class="btn btn-danger" href="{% url 'website:excluir' Cliente.id %}" role="button">Editar</a></td -->
+          <button class="btn btn-danger">Exclir</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}
